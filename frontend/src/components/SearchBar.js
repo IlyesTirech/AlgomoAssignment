@@ -5,10 +5,11 @@ import axios from "axios";
 const SearchBar = () => {
   const [character, setCharacter] = useState();
   const [startsWith, setStartsWith] = useState("");
+  const afterTwo = startsWith.length >=2 && startsWith
   useEffect(() => {
     axios
       .get(
-        `http://gateway.marvel.com/v1/public/characters?nameStartsWith=${startsWith}&apikey=${process.env.REACT_APP_API_KEY}&hash=${process.env.REACT_APP_HASH_KEY}&limit=5`
+        `http://gateway.marvel.com/v1/public/characters?nameStartsWith=${afterTwo}&apikey=${process.env.REACT_APP_API_KEY}&hash=${process.env.REACT_APP_HASH_KEY}&limit=5`
       )
       .then((res) => {
         setCharacter(res.data.data.results);
