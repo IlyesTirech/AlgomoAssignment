@@ -10,7 +10,7 @@ const SearchBar = () => {
     const apikey = process.env.REACT_APP_API_KEY;
     const hash = process.env.REACT_APP_HASH_KEY;
     const res = await axios.get(
-      `http://gateway.marvel.com/v1/public/characters`,
+      `https://gateway.marvel.com/v1/public/characters`,
       {
         params: {
           nameStartsWith: searchInput,
