@@ -5,7 +5,7 @@ import axios from "axios";
 const SearchBar = () => {
   const [character, setCharacter] = useState();
   const [startsWith, setStartsWith] = useState("");
-  const afterTwo = startsWith.length >=2 && startsWith
+  const afterTwo = startsWith.length >= 2 && startsWith;
   useEffect(() => {
     axios
       .get(
@@ -27,21 +27,24 @@ const SearchBar = () => {
 
   return (
     <StyledForm>
+      <h4>Search</h4>
+      <StyledInputs>
         <input
           type="text"
           placeholder="Search Character..."
           onChange={handleNameChange}
         />
-        {startsWith.length === 0 || character?.length === 0 ? (
-          <></>
-        ) : (
-          <StyledCharacters>
-            {character &&
-              character?.map((c) => {
-                return <p>{c.name}</p>;
-              })}
-          </StyledCharacters>
-        )}
+      </StyledInputs>
+      {startsWith.length === 0 || character?.length === 0 ? (
+        <></>
+      ) : (
+        <StyledCharacters>
+          {character &&
+            character?.map((c) => {
+              return <p>{c.name}</p>;
+            })}
+        </StyledCharacters>
+      )}
     </StyledForm>
   );
 };
@@ -49,27 +52,35 @@ const SearchBar = () => {
 export default SearchBar;
 
 const StyledForm = styled.div`
-text-align: center;
-width: 200px;
-margin: 20px auto;
-input {
-  padding: 10px;
-  width: 100%;
-  :focus{
-    outline: none;
+  text-align: center;
+  width: 200px;
+  margin: 20px auto;
+  h4 {
+    text-align: left;
   }
-}
-p{
-  padding: 5px;
-  font-size: 15px;
-  font-weight: bold;
-  text-align: left;
-  :hover{
-    background-color: grey;
+  input {
+    padding: 10px;
+    width: 100%;
+    :focus {
+      outline: none;
+    }
   }
-}
-`
+  p {
+    padding: 5px;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: left;
+    :hover {
+      background-color: grey;
+    }
+  }
+`;
+
+const StyledInputs = styled.div`
+  display: flex;
+  justify-content: space-around;
+`;
 
 const StyledCharacters = styled.div`
   border: 1px solid grey;
-`
+`;
