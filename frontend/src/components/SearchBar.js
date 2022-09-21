@@ -1,45 +1,54 @@
-import React, { useEffect, useState } from "react";
+import React, {useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 
 const SearchBar = () => {
   const [character, setCharacter] = useState();
   const [startsWith, setStartsWith] = useState("");
-  const afterTwo = startsWith.length >= 2 && startsWith;
-  useEffect(() => {
-    axios
-      .get(
-        `http://gateway.marvel.com/v1/public/characters?nameStartsWith=${afterTwo}&apikey=${process.env.REACT_APP_API_KEY}&hash=${process.env.REACT_APP_HASH_KEY}&limit=5`
-      )
-      .then((res) => {
-        setCharacter(res.data.data.results);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [startsWith]);
+
+  const fetchData = async (searchInput) => {
+    const apikey = process.env.REACT_APP_API_KEY;
+    const hash = process.env.REACT_APP_HASH_KEY;
+    const res = await axios.get(
+      `http://gateway.marvel.com/v1/public/characters`,
+      {
+        params: {
+          nameStartsWith: searchInput,
+          apikey,
+          hash,
+          limit: 5,
+        },
+      }
+    );
+    setCharacter(res.data.data.results);
+  };
 
   const handleNameChange = (e) => {
     e.preventDefault();
     const input = e.target.value.trim();
+    if (!input || input.length < 2) {
+      setStartsWith(input);
+      return;
+    }
+    fetchData(input);
     setStartsWith(input);
   };
 
   return (
     <StyledForm>
       <h4>Search</h4>
-        <input
-          type="text"
-          placeholder="Search Character..."
-          onChange={handleNameChange}
-        />
-      {startsWith.length === 0 || character?.length === 0 ? (
+      <input
+        type='text'
+        placeholder='Search Character...'
+        onChange={handleNameChange}
+      />
+      {startsWith.length < 2 || character?.length === 0 ? (
         <></>
       ) : (
         <StyledCharacters>
           {character &&
             character?.map((c) => {
-              return <p>{c.name}</p>;
+              return <h5 key={c.id}>{c.name}</h5>;
             })}
         </StyledCharacters>
       )}
@@ -63,7 +72,7 @@ const StyledForm = styled.div`
       outline: none;
     }
   }
-  p {
+  h5 {
     padding: 5px;
     font-size: 15px;
     font-weight: bold;
