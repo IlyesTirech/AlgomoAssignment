@@ -28,13 +28,11 @@ const SearchBar = () => {
   return (
     <StyledForm>
       <h4>Search</h4>
-      <StyledInputs>
         <input
           type="text"
           placeholder="Search Character..."
           onChange={handleNameChange}
         />
-      </StyledInputs>
       {startsWith.length === 0 || character?.length === 0 ? (
         <></>
       ) : (
@@ -74,11 +72,6 @@ const StyledForm = styled.div`
       background-color: grey;
     }
   }
-`;
-
-const StyledInputs = styled.div`
-  display: flex;
-  justify-content: space-around;
 `;
 
 const StyledCharacters = styled.div`
